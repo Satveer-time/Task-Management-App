@@ -113,6 +113,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Satveer Singh - [Your Email]
+Satveer Singh - [satveer3002@gmail.com]
 
 Project Link: [https://github.com/Satveer-time/Task-Management-App](https://github.com/Satveer-time/Task-Management-App) 
