@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row mb-4">
+        <div class="col">
+            <h1>My Tasks</h1>
+        </div>
+        <div class="col text-end">
+            <a href="{{ url_for('main.new_task') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> New Task
+            </a>
+        </div>
+    </div>
+
+    {% if tasks %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for task in tasks %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">{{ task.title }}</h5>
+                            <span class="badge bg-{{ 'success' if task.status == 'Completed' else 'warning' }}">
+                                {{ task.status }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ task.description }}</p>
+                            <div class="mb-2">
+                                <strong>Priority:</strong>
+                                <span class="badge bg-{{ 'danger' if task.priority == 'High' else 'warning' if task.priority == 'Medium' else 'info' }}">
+                                    {{ task.priority }}
+                                </span>
+                            </div>
+                            {% if task.due_date %}
+                                <div class="mb-2">
+                                    <strong>Due Date:</strong>
+                                    {{ task.due_date.strftime('%Y-%m-%d %H:%M') }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <div class="btn-group w-100">
+                                <a href="{{ url_for('main.update_task', task_id=task.id) }}" class="btn btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ task.id }}">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal{{ task.id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Delete</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete the task "{{ task.title }}"?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You don't have any tasks yet. <a href="{{ url_for('main.new_task') }}">Create your first task</a>!
+        </div>
+    {% endif %}
+{% endblock %} 
