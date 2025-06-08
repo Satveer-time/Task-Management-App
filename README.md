@@ -1,57 +1,74 @@
 # Task Management Application
 
-A modern task management application built with Python Flask, featuring user authentication, task creation, and management capabilities.
+A full-stack web application built with Python Flask that demonstrates modern web development practices and clean architecture.
 
-![Task Manager Screenshot](https://via.placeholder.com/800x400?text=Task+Manager+Screenshot)
+## 🚀 Features
 
-## Live Demo
-[View Live Application](https://your-render-app-url.onrender.com)
+### User Management
+- Secure user authentication system
+- User registration and login
+- Password hashing and protection
+- Session management
 
-## Features
+### Task Management
+- CRUD operations for tasks
+- Task prioritization (High, Medium, Low)
+- Status tracking (Pending, In Progress, Completed)
+- Due date management
+- User-specific task lists
 
-- **User Authentication**
-  - Secure user registration and login
-  - Password hashing and protection
-  - User-specific task management
+### Technical Features
+- RESTful API architecture
+- Database management with SQLAlchemy
+- Form validation and error handling
+- Responsive design with Bootstrap 5
+- Flash messages for user feedback
+- Modal confirmations for deletions
 
-- **Task Management**
-  - Create, read, update, and delete tasks
-  - Task categorization and priority levels
-  - Due date tracking
-  - Status tracking (Pending, In Progress, Completed)
+## 🛠️ Technologies Used
 
-- **Modern UI/UX**
-  - Responsive design with Bootstrap 5
-  - Clean and intuitive interface
-  - Card-based task display
-  - Modal confirmations for deletions
-  - Form validation
-  - Flash messages for user feedback
+### Backend
+- Python 3.x
+- Flask (Web Framework)
+- SQLAlchemy (ORM)
+- Flask-Login (Authentication)
+- Flask-WTF (Forms)
+- Werkzeug (Security)
 
-## Technologies Used
+### Frontend
+- HTML5
+- CSS3
+- Bootstrap 5
+- JavaScript
+- Bootstrap Icons
 
-- **Backend:**
-  - Python 3.x
-  - Flask (Web Framework)
-  - SQLAlchemy (ORM)
-  - Flask-Login (Authentication)
-  - Flask-WTF (Forms)
+### Database
+- SQLite (Development)
+- SQLAlchemy ORM
 
-- **Frontend:**
-  - HTML5
-  - CSS3
-  - Bootstrap 5
-  - JavaScript
+## 📋 Project Structure
+```
+task_manager/
+├── app/
+│   ├── __init__.py      # Application factory
+│   ├── models.py        # Database models
+│   ├── routes.py        # Route handlers
+│   ├── forms.py         # Form classes
+│   └── templates/       # HTML templates
+├── migrations/          # Database migrations
+├── instance/           # Instance-specific files
+├── .env               # Environment variables
+├── config.py          # Configuration
+└── run.py            # Development server
+```
 
-- **Database:**
-  - SQLite (Development)
-  - PostgreSQL (Production)
+## 🚀 Getting Started
 
-- **Deployment:**
-  - Render.com
-  - Gunicorn (WSGI Server)
+### Prerequisites
+- Python 3.x
+- pip (Python package manager)
 
-## Installation
+### Installation
 
 1. Clone the repository:
    ```bash
@@ -82,37 +99,65 @@ A modern task management application built with Python Flask, featuring user aut
    flask run
    ```
 
-## Project Structure
+## 💻 Code Examples
 
-```
-task_manager/
-├── app/
-│   ├── __init__.py
-│   ├── models.py
-│   ├── routes.py
-│   ├── forms.py
-│   └── templates/
-├── migrations/
-├── instance/
-├── .env
-├── config.py
-└── run.py
+### User Model
+```python
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+    tasks = db.relationship('Task', backref='author', lazy='dynamic')
 ```
 
-## Contributing
+### Task Model
+```python
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    due_date = db.Column(db.DateTime)
+    priority = db.Column(db.String(20), default='Medium')
+    status = db.Column(db.String(20), default='Pending')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🔒 Security Features
+- Password hashing using Werkzeug
+- CSRF protection
+- Form validation
+- Secure session management
+- User authentication
+- Protected routes
 
-## License
+## 🎨 UI/UX Features
+- Responsive design
+- Card-based task display
+- Priority-based color coding
+- Status indicators
+- Modal confirmations
+- Form validation feedback
+- Flash messages
 
+## 📝 Future Improvements
+- [ ] Add task categories
+- [ ] Implement task search
+- [ ] Add task filtering
+- [ ] Email notifications
+- [ ] Task sharing between users
+- [ ] Dark mode support
+- [ ] Mobile app version
+
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+## 👨‍💻 Author
+Satveer Singh
 
-Satveer Singh - [Your Email]
-
+## 📞 Contact
 Project Link: [https://github.com/Satveer-time/Task-Management-App](https://github.com/Satveer-time/Task-Management-App) 
